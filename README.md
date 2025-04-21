@@ -1,72 +1,97 @@
-# HetMS-AMRGNN
+# HetMS-AMRGNN: Heterogeneous Multi-Scale Graph Neural Network for Antimicrobial Drug Recommendation
 
-Heterogeneous Multi-Scale Graph Neural Network for Antimicrobial Drug Recommendation in Electronic Health Records
+## 📋 Overview
 
-## Overview
+HetMS-AMRGNN (Heterogeneous Multi-Scale Antimicrobial Recommendation Graph Neural Network) is a novel deep learning framework designed for antimicrobial drug recommendation in Intensive Care Units (ICUs). Our model effectively addresses the complexities of combination therapy and heterogeneous Electronic Health Records (EHRs) data through an advanced graph representation learning approach.
 
-This repository contains the implementation of HetMS-AMRGNN, a novel graph neural network model for antimicrobial drug recommendation in intensive care units (ICUs). The model effectively addresses:
-
-- Complex combination therapy requirements
-- Heterogeneous electronic health records (EHRs) data
-- Drug-drug interactions and resistance patterns
-- Patient-specific characteristics
-
-## Key Features
-
-- Multi-view feature extraction
-- Multi-scale graph convolution
-- Metapath-based aggregation
-- Patient history encoding
-- Drug-drug interaction integration
-
-## Requirements
-
-```
-torch>=1.8.0
-torch-geometric>=2.0.0
-numpy>=1.19.2
-pandas>=1.2.0
-scikit-learn>=0.24.0
-```
-
-## Installation
+## 🛠️ Installation
 
 ```bash
-git clone https://github.com/username/HetMS-AMRGNN.git
+# Clone the repository
+git clone https://github.com/leanqon/HetMS-AMRGNN.git
 cd HetMS-AMRGNN
+
+# Create and activate a virtual environment (optional but recommended)
+python -m venv venv
+source venv/bin/activate  # On Windows, use: venv\Scripts\activate
+
+# Install dependencies
 pip install -r requirements.txt
 ```
 
-## Usage
+## 📊 Data Preparation
 
-### Data Preparation
+The model has been tested on MIMIC-IV and eICU datasets. Due to data use agreements, we cannot directly provide the datasets. You can obtain access by:
 
-```python
-python utils/data_utils.py --data_dir /path/to/data
-```
+1. Completing the required training and applying for access at [PhysioNet](https://physionet.org/)
+2. Follow our preprocessing steps
+
+## 🚀 Usage
 
 ### Training
 
-```python
-python experiments/train.py --model HetMS-AMRGNN --hidden_dim 256 --num_views 2
+```bash
+python hetms.py --mode train \
+                --model HetMSAMRGNN \
+                --dataset eicu \
+                --hidden_dim 256 \
+                --num_views 3 \
+                --num_scales 3 \
+                --num_heads 4 \
+                --num_layers 2 \
+                --lr 0.0001 \
+                --dropout 0.2 \
+                --weight_decay 1e-4 \
+                --num_epochs 300 \
+                --batch_size 256 \
+                --output_dir ./output
 ```
 
 ### Evaluation
 
-```python
-python experiments/evaluate.py --model_path /path/to/model --test_data /path/to/test
+```bash
+python hetms.py --mode evaluate \
+                --model HetMSAMRGNN \
+                --dataset mimic \
+                --model_path ./output \
+                --output_dir ./output
 ```
 
-## Model Architecture
+### Case Study
 
-The model incorporates multiple components:
-- Heterogeneous graph construction
-- Multi-view feature extraction
-- Multi-scale graph convolution
-- Metapath-based aggregation
-- Patient history encoding
-- Drug-drug interaction integration
+```bash
+python hetms.py --mode case_study \
+                --model HetMSAMRGNN \
+                --model_path ./output \
+                --case_study_patient_id \
+                --explanation_output_dir ./output/explanations
+```
+## 📚 Directory Structure
 
-## Citation
+```
+HetMS-AMRGNN/
+├── base_models.py         # Core model architecture components
+├── case_study.py          # Functions for case study analysis
+├── explainer.py           # Explainability module
+├── hetms.py               # Main training and evaluation script
+├── integration.py         # Integration utilities
+├── data/                  # Directory for datasets (not included)
+├── output/                # Directory for output files
+└── requirements.txt       # Required Python packages
+```
 
-If you use this code in your research, please cite our paper
+## 📚 Citation
+
+## 🤝 Contributing
+
+We welcome contributions to improve HetMS-AMRGNN! Please feel free to submit a Pull Request.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 💬 Contact
+
+For any questions or feedback, please contact:
+- Zhengqiu Yu - [email]
+- Xiangrong Liu - xrliu@xmu.edu.cn
